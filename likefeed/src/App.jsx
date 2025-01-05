@@ -1,13 +1,22 @@
 import { Post } from "./Post";
 import { Header } from "./components/Header";
-import "./global.css"
 
-function App() {
+import styles from './App.module.css';
+
+import "./global.css"
+import { Sidebar } from "./components/Sidebar";
+
+export function App() {
   return (
     <div>
       <Header />
-      <h1> Hello World</h1>
-      <Post author="Matheus" content="Oiiiiii" />
+
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <main>
+          <Post author="Matheus" content="Oiiiiii" />
+        </main>
+      </div>
     </div>
   );
 }
