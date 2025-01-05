@@ -23,10 +23,21 @@ export function Post() {
             <div className={s.content}>
                 <p>🏁 E aí Pessoal!</p>
                 <p>Acabei de subir mais um projeto para meu portifolio. É um projeto que fiz nas minhas férias de jan/2025.</p>
-                <p>➡️ <a href='https://www.linkedin.com/in/matheusspsilva/'>www.linkedin.com/matheusspsilva</a></p>
+                <p>➡️ <a target='_blank' href='https://www.linkedin.com/in/matheusspsilva/'>www.linkedin.com/matheusspsilva</a></p>
                 <p><a href='#/'>#novoprojeto</a> <a href='#/'>#ferias</a> <a href='#/'>#estudos</a></p>
 
             </div>
+
+            <form className={s.commentForm}>
+                <strong>Deixe seu feedback</strong>
+
+                <textarea 
+                placeholder='Deixe um comentário'
+                />
+
+                <button type='submit'>Comentar</button>
+
+            </form>
         </article>
     )
 }
