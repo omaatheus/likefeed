@@ -1,33 +1,49 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/prop-types */
 import { Comment } from './Comment'
 import s from './Post.module.css'
 import { Avatar } from './Avatar'
 
 
-export function Post() {
+export function Post({author, publishedAt, content}) {
+    const publishedDateFormatted = new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        hour: '2-digit',
+        minute: '2-digit'
+
+    }).format(publishedAt)
+
     return(
         <article className={s.post}>
             <header>
                 <div className={s.author}>
-                    <Avatar hasBorder={true} src='https://github.com/omaatheus.png' />
+                    <Avatar hasBorder={true} src={author.avatarUrl} />
                     <div className={s.authorInfo}>
                         <strong>
-                            Matheus Silva
+                            {author.name}
                         </strong>
                         <span>
-                            Web Developer
+                            {author.role}
                         </span>
                     </div>
                 </div>
 
-                <time title='05 de Janeiro de 2025 as 18:42h' dateTime='2025-01-05 18:42:50'>Publicado há 1h</time>
+                <time title={publishedDateFormatted} dateTime={publishedAt}>{publishedDateFormatted}</time>
 
             </header>
 
             <div className={s.content}>
-                <p>🏁 E aí Pessoal!</p>
-                <p>Acabei de subir mais um projeto para meu portifolio. É um projeto que fiz nas minhas férias de jan/2025.</p>
-                <p>➡️ <a target='_blank' href='https://www.linkedin.com/in/matheusspsilva/'>www.linkedin.com/matheusspsilva</a></p>
-                <p><a href='#/'>#novoprojeto</a> <a href='#/'>#ferias</a> <a href='#/'>#estudos</a></p>
+                {content.map(line => {
+                    if(line.type == "paragraph"){
+                        return <p>{line.content}</p>
+                    } else if (line.type == "link"){
+                        return <p><a href={line.content} target='_blank'>{line.content}</a></p>
+                        
+                        
+                    }
+                })
+            }
 
             </div>
 
