@@ -3,7 +3,8 @@ import { Avatar } from './Avatar'
 
 import { Trash, ThumbsUp } from 'phosphor-react'
  
-export function Comment() {
+// eslint-disable-next-line react/prop-types
+export function Comment({content}) {
     return(
         <div className={styles.comment}>
             <Avatar hasBorder={false} src='https://github.com/omaatheus.png' />
@@ -20,7 +21,7 @@ export function Comment() {
                         </button>
                     </header>
 
-                    <p>Muito bom Devon, parabéns!! 🔥</p>
+                    <p>{content}</p>
                 </div>
             
 
