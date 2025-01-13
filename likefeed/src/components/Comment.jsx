@@ -4,7 +4,14 @@ import { Avatar } from './Avatar'
 import { Trash, ThumbsUp } from 'phosphor-react'
  
 // eslint-disable-next-line react/prop-types
-export function Comment({content}) {
+export function Comment({content, deleteComment}) {
+
+    function handleDeleteComment(){
+
+        deleteComment(content)
+
+    }
+
     return(
         <div className={styles.comment}>
             <Avatar hasBorder={false} src='https://github.com/omaatheus.png' />
@@ -16,7 +23,7 @@ export function Comment({content}) {
                             <time title='05 de Janeiro de 2025 às 19:25h' dateTime='2025-01-05 19:26:15'>Cerca de 1h atrás</time>
                         </div>
 
-                        <button title='Deletar comentário'>
+                        <button onClick={handleDeleteComment} title='Deletar comentário'>
                             <Trash size={20} />
                         </button>
                     </header>

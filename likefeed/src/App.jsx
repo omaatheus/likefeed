@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-key */
-
 import { Post } from "./components/Post";
 import { Header } from "./components/Header";
 
@@ -71,6 +69,7 @@ export function App() {
           {posts.map(post => {
             
             return <Post
+            key={post.id}
             author={post.author}
             content={post.content}
             publishedAt={post.publishedAt}

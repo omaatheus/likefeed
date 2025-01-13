@@ -1,19 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Comment } from './Comment';
-import s from './Post.module.css';
-import { Avatar } from './Avatar';
-import { useState } from 'react';
+import { Comment } from "./Comment";
+import s from "./Post.module.css";
+import { Avatar } from "./Avatar";
+import { useState } from "react";
 
 export function Post({ author, publishedAt, content }) {
-  const [comments, setComments] = useState(['Post Muito bacana, hein?']); 
-  const [newCommentText, setNewCommentText] = useState('')
+  const [comments, setComments] = useState(["Post Muito bacana, hein?"]);
+  const [newCommentText, setNewCommentText] = useState("");
 
-  const publishedDateFormatted = new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
+  const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
   }).format(publishedAt);
 
   function handleCreateNewComment(event) {
@@ -21,12 +21,24 @@ export function Post({ author, publishedAt, content }) {
 
     setComments([...comments, newCommentText]);
 
-    setNewCommentText('')
-
+    setNewCommentText("");
   }
 
-  function handleNewCommandChange(){
-    setNewCommentText(event.target.value)
+  function handleNewCommandChange() {
+    event.target.setCustomValidity("")
+    setNewCommentText(event.target.value);
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentWithoutDeletedOne = comments.filter((comment) => {
+      return comment !== commentToDelete;
+    });
+
+    setComments(commentWithoutDeletedOne);
+  }
+
+  function handleNewCommentInvalid(){
+    event.target.setCustomValidity("Este campo é obrigatório.")
     
   }
 
@@ -47,13 +59,17 @@ export function Post({ author, publishedAt, content }) {
       </header>
 
       <div className={s.content}>
-        {content.map((line, index) => {
-          if (line.type === 'paragraph') {
-            return <p key={index}>{line.content}</p>;
-          } else if (line.type === 'link') {
+        {content.map((line) => {
+          if (line.type === "paragraph") {
+            return <p key={line.id}>{line.content}</p>;
+          } else if (line.type === "link") {
             return (
-              <p key={index}>
-                <a href={line.content} target="_blank" rel="noopener noreferrer">
+              <p key={line.id}>
+                <a
+                  href={line.content}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {line.content}
                 </a>
               </p>
@@ -65,15 +81,25 @@ export function Post({ author, publishedAt, content }) {
       <form onSubmit={handleCreateNewComment} className={s.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea value={newCommentText} onChange={handleNewCommandChange} name='comment' placeholder="Deixe um comentário" />
+        <textarea
+          required
+          onInvalid={handleNewCommentInvalid}
+          value={newCommentText}
+          onChange={handleNewCommandChange}
+          name="comment"
+          placeholder="Deixe um comentário"
+        />
 
-        <button type="submit">Comentar</button>
+        <button type="submit" disabled={newCommentText.length === 0}>Comentar</button>
       </form>
 
       <div className={s.commentList}>
         {comments.map((comment, index) => (
-          // eslint-disable-next-line react/jsx-key
-          <Comment content={comment} />
+          <Comment
+            deleteComment={deleteComment}
+            key={comment}
+            content={comment}
+          />
         ))}
       </div>
     </article>
